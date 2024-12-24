@@ -1,51 +1,29 @@
-// Cargar la lista de animes al iniciar la página
-window.onload = function() {
-    cargarLista('por-ver');
-    cargarLista('viendo');
-    cargarLista('terminados');
-};
 
-function cargarLista(tipo) {
-    const storedAnimes = localStorage.getItem(tipo + 'List');
-    const countSpan = document.getElementById(tipo + '-count');
-    if (storedAnimes) {
-        const animes = JSON.parse(storedAnimes);
-        const ul = document.getElementById(tipo + "-list");
-        ul.innerHTML = ''; // Limpiar la lista antes de recargar
-        animes.forEach((anime, index) => {
-            crearElementoAnime(anime.name, anime.url, index, ul, tipo);
+
+// Cargar la lista de animes al iniciar la página
+window.onload = cargarLista;
+
+function cargarLista() { 
+    var ul = document.getElementById("viendo-list");
+    ul.innerHTML = '';
+    database.ref('animes').once('value', function(snapshot) { snapshot.forEach(function(childSnapshot) { var anime = childSnapshot.val();
+    crearElementoAnime(anime.name, anime.url, ul); 
         });
-        countSpan.textContent = animes.length;
-    } else {
-        countSpan.textContent = 0;
-    }
+    });
 }
 
-function agregarAnime() {
-    var input = document.getElementById("anime-input");
-    var urlInput = document.getElementById("url-input");
-    var animeName = input.value.trim();
-    var animeUrl = urlInput.value.trim();
-
-    if (animeName !== "" && animeUrl !== "") {
-        const ul = document.getElementById("por-ver-list");
-        const newIndex = 0; // Siempre agregará en la posición 0
-        let animes = localStorage.getItem('por-verList') ? JSON.parse(localStorage.getItem('por-verList')) : [];
-        animes.unshift({ name: animeName, url: animeUrl }); // Agregar al inicio de la lista
-        localStorage.setItem('por-verList', JSON.stringify(animes));
-
-        // Recargar la lista para reflejar los cambios
-        ul.innerHTML = ''; // Limpiar la lista antes de recargar
-        animes.forEach((anime, i) => {
-            crearElementoAnime(anime.name, anime.url, i, ul, 'por-ver');
-        });
-
-        // Actualizar contador
-        document.getElementById('por-ver-count').textContent = animes.length;
-
-        input.value = "";
+//Reference to the Firebase database var database = 
+firebase.database(); 
+function agregarAnime() { var input = document.getElementById("anime-input"); 
+    var urlInput = document.getElementById("url-input"); 
+    var animeName = input.value.trim(); 
+    var animeUrl = urlInput.value.trim(); 
+    if (animeName !== "" && animeUrl !== "") { var newAnimeKey = database.ref().child('animes').push().key; 
+        var updates = {}; updates['/animes/' + newAnimeKey] = { name: animeName, url: animeUrl }; 
+        database.ref().update(updates); 
+        input.value = ""; 
         urlInput.value = "";
-    }
+    } 
 }
 
 function crearElementoAnime(animeName, animeUrl, index, ul, tipo) {
