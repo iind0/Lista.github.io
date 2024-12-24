@@ -5,43 +5,136 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Animes</title>
     <link rel="stylesheet" href="styles.css">
-    
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-          apiKey: "AIzaSyCcgZcGa0H12JIM_4ZD8ANxKA8Hm0qSsd4",
-          authDomain: "app-de-ejemplo-75d44.firebaseapp.com",
-          projectId: "app-de-ejemplo-75d44",
-          storageBucket: "app-de-ejemplo-75d44.firebasestorage.app",
-          messagingSenderId: "652134895194",
-          appId: "1:652134895194:web:f9809a71d1967f62d9d263"
-        };
-      
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-      </script>
+    <style>
+        .anime-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
 
+        .anime-item .controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #options-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            cursor: pointer;
+        }
+
+        #auth-container {
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            display: none;
+            background: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyDjfOrn0OtFXrz35otKhQakhn9FE0WWP2s",
+            authDomain: "sample-firebase-ai-app-d47fe.firebaseapp.com",
+            projectId: "sample-firebase-ai-app-d47fe",
+            storageBucket: "sample-firebase-ai-app-d47fe.firebasestorage.app",
+            messagingSenderId: "206638752071",
+            appId: "1:206638752071:web:747477739996a7135b2c62"
+        };   
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        
+        function toggleAuthContainer() {
+            var authContainer = document.getElementById("auth-container");
+            if (authContainer.style.display === "none" || authContainer.style.display === "") {
+                authContainer.style.display = "block";
+            } else {
+                authContainer.style.display = "none";
+            }
+        }
+        
+        // Referencias
+        var database = firebase.database();
+        var auth = firebase.auth();
+
+        // Función para registrarse
+        function register() {
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            auth.createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                var user = userCredential.user;
+                console.log("Usuario registrado:", user);
+                // Redirigir o mostrar el contenido correspondiente
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                console.error("Error al registrar:", errorCode, errorMessage);
+            });
+        }
+
+        // Función para iniciar sesión
+        function login() {
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            auth.signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                var user = userCredential.user;
+                console.log("Usuario inició sesión:", user);
+                // Redirigir o mostrar el contenido correspondiente
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                console.error("Error al iniciar sesión:", errorCode, errorMessage);
+            });
+        }
+
+        // Función para cerrar sesión
+        function logout() {
+            auth.signOut().then(() => {
+                console.log("Usuario cerró sesión");
+                // Redirigir o mostrar el contenido correspondiente
+            }).catch((error) => {
+                console.error("Error al cerrar sesión:", error);
+            });
+        }
+
+
+    </script>
 </head>
 <body>
+
     <div id="title-container">
         <h1 class="title">Lista de Animes</h1>
     </div>
-    <div id="input-container">
-        <div class="input-group">
-            <input type="text" id="anime-input" placeholder="Nombre del anime">
-            <input type="text" id="url-input" placeholder="URL del anime">
-            <button onclick="agregarAnime()">Agregar</button>
-        </div>
-        <div class="input-group">
-            <input type="text" id="search-input" placeholder="Buscar anime">
-            <button onclick="buscarAnime()">Buscar</button>
-        </div>
-        <p id="search-result"></p>
+        <div class="navbar">
+            <img id="options-button" src="opciones.png" alt="Opciones" onclick="toggleAuthContainer()">
+            <div class="input-group">
+                <input type="text" id="anime-input" placeholder="Nombre del anime">
+                <input type="text" id="url-input" placeholder="URL del anime">
+                <button onclick="agregarAnime()">Agregar</button>
+            </div>
+            <div class="input-group">
+                <input type="text" id="search-input" placeholder="Buscar anime">
+                <button onclick="buscarAnime()">Buscar</button>
+            </div>
+            <p id="search-result"></p>      
     </div>
     <div id="listas-container">
         <div class="lista" id="lista-por-ver">
@@ -57,6 +150,19 @@
             <ul id="terminados-list"></ul>
         </div>
     </div>
+
+    <div id="auth-container">
+        <h2>Registro</h2>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Contraseña">
+        <button onclick="register()">Registrar</button>
+        <h2>Iniciar Sesión</h2>
+        <input type="email" id="email-login" placeholder="Email">
+        <input type="password" id="password-login" placeholder="Contraseña">
+        <button onclick="login()">Iniciar Sesión</button>
+        <button onclick="logout()">Cerrar Sesión</button>
+    </div>
     <script src="script.js"></script>
 </body>
+</html>
 </html>
