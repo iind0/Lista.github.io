@@ -1,4 +1,5 @@
-
+// Reference to the Firebase database
+var database = firebase.database();
 
 // Cargar la lista de animes al iniciar la página
 window.onload = cargarLista;
@@ -6,27 +7,32 @@ window.onload = cargarLista;
 function cargarLista() { 
     var ul = document.getElementById("viendo-list");
     ul.innerHTML = '';
-    database.ref('animes').once('value', function(snapshot) { snapshot.forEach(function(childSnapshot) { var anime = childSnapshot.val();
-    crearElementoAnime(anime.name, anime.url, ul); 
+    database.ref('animes').once('value', function(snapshot) { 
+        snapshot.forEach(function(childSnapshot) { 
+            var anime = childSnapshot.val();
+            crearElementoAnime(anime.name, anime.url, ul); 
         });
     });
 }
 
-//Reference to the Firebase database var database = 
-firebase.database(); 
-function agregarAnime() { var input = document.getElementById("anime-input"); 
+function agregarAnime() { 
+    var input = document.getElementById("anime-input"); 
     var urlInput = document.getElementById("url-input"); 
     var animeName = input.value.trim(); 
     var animeUrl = urlInput.value.trim(); 
-    if (animeName !== "" && animeUrl !== "") { var newAnimeKey = database.ref().child('animes').push().key; 
-        var updates = {}; updates['/animes/' + newAnimeKey] = { name: animeName, url: animeUrl }; 
+
+    if (animeName !== "" && animeUrl !== "") { 
+        var newAnimeKey = database.ref().child('animes').push().key; 
+        var updates = {}; 
+        updates['/animes/' + newAnimeKey] = { name: animeName, url: animeUrl }; 
         database.ref().update(updates); 
+
         input.value = ""; 
         urlInput.value = "";
     } 
 }
 
-function crearElementoAnime(animeName, animeUrl, index, ul, tipo) {
+function crearElementoAnime(animeName, animeUrl, ul) {
     const li = document.createElement("li");
 
     const span = document.createElement("span");
@@ -42,23 +48,8 @@ function crearElementoAnime(animeName, animeUrl, index, ul, tipo) {
     img.src = 'DeletePng.png';
     img.alt = 'Eliminar';
     button.appendChild(img);
-    button.onclick = function() {
-        eliminarAnime(index, tipo);
-    };
 
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.onchange = function() {
-        if (checkbox.checked) {
-            moverAnime(index, tipo);
-        }
-    };
-
-    const container = document.createElement("div");
-    container.appendChild(checkbox);
-    container.appendChild(button);
-
-    li.appendChild(container);
+    li.appendChild(button);
     ul.insertBefore(li, ul.firstChild); // Añadir al inicio de la lista visualmente
 }
 
@@ -70,7 +61,7 @@ function eliminarAnime(index, tipo) {
     const ul = document.getElementById(tipo + "-list");
     ul.innerHTML = '';
     animes.forEach((anime, i) => {
-        crearElementoAnime(anime.name, anime.url, i, ul, tipo);
+        crearElementoAnime(anime.name, anime.url, ul);
     });
 
     // Actualizar contador
@@ -98,11 +89,11 @@ function moverAnime(index, tipo) {
     const ulDestino = document.getElementById(destinoTipo + "-list");
     ulOrigen.innerHTML = '';
     origenAnimes.forEach((anime, i) => {
-        crearElementoAnime(anime.name, anime.url, i, ulOrigen, tipo);
+        crearElementoAnime(anime.name, anime.url, ulOrigen);
     });
     ulDestino.innerHTML = '';
     destinoAnimes.forEach((anime, i) => {
-        crearElementoAnime(anime.name, anime.url, i, ulDestino, destinoTipo);
+        crearElementoAnime(anime.name, anime.url, ulDestino);
     });
 
     // Actualizar contadores
