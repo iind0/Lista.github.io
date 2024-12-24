@@ -1,0 +1,131 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #5e5e5e;
+    margin: 0;
+    padding-top: 120px; /* Añade espacio superior para los inputs fijos */
+}
+
+#title-container {
+    text-align: center;
+    background-color: #333;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+h1.title {
+    color: #fff;
+    margin: 0;
+}
+
+h2.sub-title {
+    color: #fff;
+    background-color: #0073e6;
+    padding: 10px;
+    text-align: center;
+}
+
+#input-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #0062c4;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+    flex-wrap: wrap; /* Añade esta línea para permitir que los elementos se envuelvan si es necesario */
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    margin: 10px; /* Añade margen para separar los grupos de entrada */
+}
+
+#anime-input, #url-input, #search-input {
+    padding: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#search-result {
+    margin-left: 10px;
+}
+
+#listas-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px; /* Espacio entre las listas */
+    margin-top: 20px; /* Añade un margen superior para evitar superposición con los inputs */
+}
+
+.lista {
+    width: 45%;
+    max-width: 400px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 10px;
+    background-color: #666666;
+    border: 1px solid #535353;
+    margin-bottom: 5px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px; /* Ajusta la altura para que sea más rectangular */
+    box-sizing: border-box; /* Asegura que el padding y el borde estén incluidos en la altura y el ancho */
+    overflow: hidden; /* Oculta el desbordamiento del texto */
+}
+
+li span {
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    overflow: hidden; /* Oculta el texto desbordado */
+    text-overflow: ellipsis; /* Añade puntos suspensivos al texto desbordado */
+    display: block;
+    width: calc(100% - 50px); /* Deja espacio para los botones */
+}
+
+li button,
+li input[type="checkbox"] {
+    display: none;
+    cursor: pointer;
+}
+
+li:hover button,
+li:hover input[type="checkbox"] {
+    display: inline-block;
+}
+
+li div {
+    display: flex;
+    align-items: center;
+}
+
+li button {
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+li button img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}

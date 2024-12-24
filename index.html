@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Animes</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="title-container">
+        <h1 class="title">Lista de Animes</h1>
+    </div>
+    <div id="input-container">
+        <div class="input-group">
+            <input type="text" id="anime-input" placeholder="Nombre del anime">
+            <input type="text" id="url-input" placeholder="URL del anime">
+            <button onclick="agregarAnime()">Agregar</button>
+        </div>
+        <div class="input-group">
+            <input type="text" id="search-input" placeholder="Buscar anime">
+            <button onclick="buscarAnime()">Buscar</button>
+        </div>
+        <p id="search-result"></p>
+    </div>
+    <div id="listas-container">
+        <div class="lista" id="lista-por-ver">
+            <h2 class="sub-title">Por Ver (<span id="por-ver-count">0</span>)</h2>
+            <ul id="por-ver-list"></ul>
+        </div>
+        <div class="lista" id="lista-viendo">
+            <h2 class="sub-title">Viendo (<span id="viendo-count">0</span>)</h2>
+            <ul id="viendo-list"></ul>
+        </div>
+        <div class="lista" id="lista-terminados">
+            <h2 class="sub-title">Terminados (<span id="terminados-count">0</span>)</h2>
+            <ul id="terminados-list"></ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
