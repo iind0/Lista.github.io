@@ -6,21 +6,25 @@
     <title>Lista de Animes</title>
     <link rel="stylesheet" href="styles.css">
     
-    <!-- The core Firebase JS SDK is always required and must be listed first --> 
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script> 
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script> 
-    <script>
-        var firebaseConfig = {
-            apiKey: "AIzaSyDjfOrn0OtFXrz35otKhQakhn9FE0WWP2s",
-            authDomain: "sample-firebase-ai-app-d47fe.firebaseapp.com",
-            projectId: "sample-firebase-ai-app-d47fe",
-            storageBucket: "sample-firebase-ai-app-d47fe.firebasestorage.app",
-            messagingSenderId: "206638752071",
-            appId: "1:206638752071:web:747477739996a7135b2c62"
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyCcgZcGa0H12JIM_4ZD8ANxKA8Hm0qSsd4",
+          authDomain: "app-de-ejemplo-75d44.firebaseapp.com",
+          projectId: "app-de-ejemplo-75d44",
+          storageBucket: "app-de-ejemplo-75d44.firebasestorage.app",
+          messagingSenderId: "652134895194",
+          appId: "1:652134895194:web:f9809a71d1967f62d9d263"
         };
+      
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-    </script>
+        const app = initializeApp(firebaseConfig);
+      </script>
 
 </head>
 <body>
